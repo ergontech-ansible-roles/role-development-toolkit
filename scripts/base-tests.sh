@@ -51,7 +51,7 @@ neutral='\033[0m'
 
 # Test Ansible syntax.
 printf ${green}"Checking Ansible playbook syntax."${neutral}
-docker exec --tty $container_id ansible-playbook ${path_to_playbook}/${playbook}--syntax-check
+docker exec --tty $container_id ansible-playbook ${path_to_playbook}/${playbook} --syntax-check
 
 printf "\n"
 
@@ -62,7 +62,7 @@ docker exec $container_id env ANSIBLE_FORCE_COLOR=1 ansible-playbook ${path_to_p
 # Run Ansible playbook again (idempotence test).
 printf ${green}"Running playbook again: idempotence test"${neutral}
 idempotence=$(mktemp)
-docker exec $container_id ansible-playbook ${path_to_playbook}/${playbook}| tee -a $idempotence
+docker exec $container_id ansible-playbook ${path_to_playbook}/${playbook}|  tee -a $idempotence
 tail $idempotence \
     | grep -q 'changed=0.*failed=0' \
     && (printf ${green}'Idempotence test: pass'${neutral}"\n") \
