@@ -40,7 +40,3 @@ tail $idempotence \
     | grep -q 'changed=0.*failed=0' \
     && (printf ${green}'Idempotence test: pass'${neutral}"\n") \
     || (printf ${red}'Idempotence test: fail'${neutral}"\n" && exit 1)
-
-# Remove the Docker container
-printf "Removing Docker container...\n"
-docker rm -f $container_id
