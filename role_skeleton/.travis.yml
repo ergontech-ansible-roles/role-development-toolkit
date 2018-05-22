@@ -1,0 +1,31 @@
+---
+
+sudo: required
+
+language: minimal
+
+services:
+  - docker
+
+before_install:
+  # Set some vars
+  - export container_id="test-role-container"
+  - export distro="ubuntu1604"
+  - export init="/lib/systemd/systemd"
+  - export opts="--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+
+  # Run the container using the supplied OS.
+  - docker pull geerlingguy/docker-$distro-ansible:latest
+  - docker run --detach --volume="$PWD":/etc/ansible/roles/test-role:rw --name $container_id $opts geerlingguy/docker-$distro-ansible:latest $init
+
+before_script:
+  # Download and Base Test Script
+  - wget -O $PWD/tests/test.sh https://raw.githubusercontent.com/ergontech-ansible-roles/role-development-toolkit/master/scripts/base-tests.sh
+  - chmod +x $PWD/tests/test.sh
+script:
+  # Run Base Test Script
+  - ${PWD}/tests/test.sh -id $container_id
+
+after_script:
+  # Remove the Docker container
+  - docker rm -f $container_id
