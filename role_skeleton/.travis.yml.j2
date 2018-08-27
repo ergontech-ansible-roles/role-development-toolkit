@@ -16,7 +16,7 @@ before_install:
 
   # Run the container using the supplied OS.
   - docker pull geerlingguy/docker-$distro-ansible:latest
-  - docker run --detach --volume="$PWD":/etc/ansible/roles/test-role:rw --name $container_id $opts geerlingguy/docker-$distro-ansible:latest $init
+  - docker run --detach --volume="$PWD":/etc/ansible/roles/{{ role_name }}:rw --name $container_id $opts geerlingguy/docker-$distro-ansible:latest $init
 
 before_script:
   # Download and Base Test Script
@@ -24,7 +24,7 @@ before_script:
   - chmod +x $PWD/tests/test.sh
 script:
   # Run Base Test Script
-  - ${PWD}/tests/test.sh -id $container_id
+  - ${PWD}/tests/test.sh -id $container_id -p /etc/ansible/roles/{{ role_name }}/tests
 
 after_script:
   # Remove the Docker container
