@@ -51,7 +51,7 @@ neutral='\033[0m'
 
 # Install requirements if `requirements.yml` is present.
 printf ${green}"Checking for dependencies."${neutral}
-$depFile=${path_to_playbook}/requirements.yml
+depFile=${path_to_playbook}/requirements.yml
 echo ${path_to_playbook}
 ls -la ${path_to_playbook}
 if [ -f $depFile ]; then
