@@ -50,7 +50,8 @@ green='\033[0;32m'
 neutral='\033[0m'
 
 # Install requirements if `requirements.yml` is present.
-if [ -f "${path_to_playbook}/requirements.yml" ]; then
+printf ${green}"Checking for dependencies."${neutral}
+if [ -f ${path_to_playbook}/requirements.yml ]; then
   printf ${green}"Requirements file detected; installing dependencies."${neutral}"\n"
   docker exec --tty $container_id env TERM=xterm ansible-galaxy install -r ${path_to_playbook}/requirements.yml
 fi
